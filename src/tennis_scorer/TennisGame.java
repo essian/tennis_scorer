@@ -16,6 +16,8 @@ public class TennisGame extends WinnableRound {
         pointsList.put(3, "40");
         pointsList.put(4, "A");
     }
+    private int normalScoreA;
+    private int normalScoreB;
 
     public TennisGame(){
         super();
@@ -31,26 +33,38 @@ public class TennisGame extends WinnableRound {
 
 
     @Override
-    public String toString(String server) {
-        int scoreA = getScoreA();
-        int scoreB = getScoreB();
-
+    public String toString(Player server) {
         if (zeroScores()) {
             return "";
         }
+        normaliseScores();
+        return serverFirstFormat(server, getScoreString(normalScoreA), getScoreString(normalScoreB));
+
+    }
+
+    private void normaliseScores() {
+        normalScoreA = getScoreA();
+        normalScoreB = getScoreB();
         if (deuce()) {
-            scoreA = 3;
-            scoreB = 3;
+            normalScoreA = 3;
+            normalScoreB = 3;
         }
         if (advantageA()) {
-            scoreA = 4;
-            scoreB = 3;
+            normalScoreA = 4;
+            normalScoreB = 3;
         }
         if (advantageB()) {
-            scoreA = 3;
-            scoreB = 4;
+            normalScoreA = 3;
+            normalScoreB = 4;
         }
-        return serverFirstFormat(server, pointsList.get(scoreA), pointsList.get(scoreB));
+    }
+
+    private String getScoreString(int score) {
+        String scoreString = pointsList.get(score);
+        if (scoreString == null) {
+            throw new IllegalArgumentException("Score: " + score);
+        }
+        return scoreString;
     }
 
     private boolean advantageA() {

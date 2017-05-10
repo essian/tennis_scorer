@@ -6,6 +6,7 @@ package tennis_scorer;
 public class TennisMatch {
 
     private final ScoreBoard scoreBoard;
+    private Player player;
 
     public TennisMatch() {
         scoreBoard = new ScoreBoard();
@@ -14,7 +15,14 @@ public class TennisMatch {
     public void parseGameWinners(String line) {
         String[] gameWinners = line.split("");
         for (String gameWinner : gameWinners) {
-            scoreBoard.incrementMatch(gameWinner);
+            try {
+                player = Player.valueOf(gameWinner);
+                scoreBoard.incrementMatch(player);
+            } catch (Exception e) {
+                continue;
+//                could raise exception here if required
+            }
+
         }
     }
 

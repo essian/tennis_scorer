@@ -16,7 +16,7 @@ public class TennisSet extends WinnableRound {
         return (highestScore >=6  && highestScore > lowestScore + 1);
     }
 
-    public String toString(String server) {
-        return serverFirstFormat(server, "" + getScoreA(), "" + getScoreB());
+    public String toString(Player server) {
+        return serverFirstFormat(server, String.valueOf(getScoreA()), String.valueOf(getScoreB()));
     }
 }

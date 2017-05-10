@@ -21,26 +21,37 @@ public abstract class WinnableRound {
         return scoreB;
     }
 
-    public void increment(String player) {
-        if (player.equals("A")){
-            this.scoreA++;
-        }
-        if (player.equals("B")) {
-            this.scoreB++;
+    public void increment(Player player) {
+        switch (player) {
+            case A:
+                scoreA++;
+                break;
+            case B:
+                scoreB++;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid player");
         }
     }
 
-    public String serverFirstFormat(String server, String scoreA, String scoreB) {
-        if (server.equals("A")) {
-            return String.format("%s-%s ", scoreA, scoreB);
-        } else {
-            return String.format("%s-%s ", scoreB, scoreA);
+    public String serverFirstFormat(Player server, String scoreA, String scoreB) {
+        String formattedString;
+        switch (server) {
+            case A:
+                formattedString = String.format("%s-%s ", scoreA, scoreB);
+                break;
+            case B:
+                formattedString = String.format("%s-%s ", scoreB, scoreA);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid player");
         }
+        return formattedString;
     }
 
     public abstract boolean someoneWon ();
 
-    public abstract String toString(String server);
+    public abstract String toString(Player server);
 
 
 

@@ -10,7 +10,7 @@ public class ScoreBoard {
     private final List<WinnableRound> scoreBoard;
     private TennisSet currentSet;
     private TennisGame currentGame;
-    private String server;
+    private Player server;
 
     public ScoreBoard() {
         scoreBoard = new ArrayList<>();
@@ -18,10 +18,11 @@ public class ScoreBoard {
         currentGame = new TennisGame();
         scoreBoard.add(currentSet);
         scoreBoard.add(currentGame);
-        server = "A";
+        server = Player.A;
     }
 
-    public void incrementMatch(String winner) {
+
+    public void incrementMatch(Player winner) {
         currentGame.increment(winner);
         if (currentGame.someoneWon()) {
             switchServer();
@@ -33,8 +34,8 @@ public class ScoreBoard {
 
     public String toString() {
         StringBuilder result = new StringBuilder();
-        for (WinnableRound thing : scoreBoard) {
-            result.append(thing.toString(server));
+        for (WinnableRound round : scoreBoard) {
+            result.append(round.toString(server));
         }
         return result.toString();
     }
@@ -44,7 +45,7 @@ public class ScoreBoard {
         scoreBoard.add(currentGame);
     }
 
-    private void updateSets(String winner) {
+    private void updateSets(Player winner) {
         currentSet.increment(winner);
         if (currentSet.someoneWon()) {
             currentSet = new TennisSet();
@@ -53,7 +54,7 @@ public class ScoreBoard {
     }
 
     private void switchServer() {
-        server = server.equals("A") ? "B" : "A";
+        server = server.equals(Player.A) ? Player.B : Player.A;
     }
 
 }
