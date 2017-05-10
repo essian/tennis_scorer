@@ -6,7 +6,6 @@ package tennis_scorer;
 public class TennisMatch {
 
     private final ScoreBoard scoreBoard;
-    private Player player;
 
     public TennisMatch() {
         scoreBoard = new ScoreBoard();
@@ -16,13 +15,13 @@ public class TennisMatch {
         String[] gameWinners = line.split("");
         for (String gameWinner : gameWinners) {
             try {
-                player = Player.valueOf(gameWinner);
-                scoreBoard.incrementMatch(player);
+                Player player = Player.valueOf(gameWinner);
+                scoreBoard.increment(player);
             } catch (Exception e) {
-                continue;
-//                could raise exception here if required
+                if (!gameWinner.equals("")) { //empty input should be permitted and should output nil-nil set
+                    throw new IllegalArgumentException("Invalid player in input " + gameWinner);
+                }
             }
-
         }
     }
 

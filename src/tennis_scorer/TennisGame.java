@@ -20,7 +20,7 @@ public class TennisGame extends WinnableRound {
     private int normalScoreB;
 
     public TennisGame(){
-        super(4, 2);
+        super(4);
     }
 
     @Override
@@ -34,7 +34,6 @@ public class TennisGame extends WinnableRound {
             normaliseScores();
         }
         return serverFirstFormat(server, getScoreString(normalScoreA), getScoreString(normalScoreB));
-
     }
 
     private void normaliseScores() {

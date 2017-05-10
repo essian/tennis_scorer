@@ -8,14 +8,14 @@ public abstract class WinnableRound {
     private int scoreA;
     private int scoreB;
 
-    private int threshold;
-    private int lead;
+    private final int threshold;
+    private final int lead;
 
-    public WinnableRound(int threshold, int lead) {
+    public WinnableRound(int threshold) {
         scoreA = 0;
         scoreB = 0;
         this.threshold = threshold;
-        this.lead = lead;
+        this.lead = 2;
     }
 
     public int getScoreA() {
@@ -30,7 +30,7 @@ public abstract class WinnableRound {
         return threshold;
     }
 
-    public int getLead() {
+    private int getLead() {
         return lead;
     }
 
@@ -66,9 +66,8 @@ public abstract class WinnableRound {
         int highestScore = Math.max(scoreA, scoreB);
         int lowestScore = Math.min(scoreA, scoreB);
         return highestScore >= getThreshold() && highestScore >= lowestScore + getLead();
-    };
+    }
 
     public abstract String toString(Player server);
-
 
 }

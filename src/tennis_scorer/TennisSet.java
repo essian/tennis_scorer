@@ -6,7 +6,7 @@ package tennis_scorer;
 public class TennisSet extends WinnableRound {
 
     public TennisSet() {
-        super(6, 2);
+        super(6);
     }
 
     public String toString(Player server) {

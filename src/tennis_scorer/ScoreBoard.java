@@ -22,7 +22,7 @@ public class ScoreBoard {
     }
 
 
-    public void incrementMatch(Player winner) {
+    public void increment(Player winner) {
         currentGame.increment(winner);
         if (currentGame.someoneWon()) {
             switchServer();
