@@ -24,7 +24,7 @@ public class Main {
         while (reader.hasNextLine()) {
             String line = reader.nextLine();
             TennisMatch tennisMatch = new TennisMatch();
-            tennisMatch.parseGameWinners(line);
+            tennisMatch.parsePointWinners(line);
             String result = tennisMatch.getScoreBoard();
             writer.write(result + "\n");
             System.out.println(result);

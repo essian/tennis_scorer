@@ -20,15 +20,14 @@ public class TennisGame extends WinnableRound {
     private int normalScoreB;
 
     public TennisGame(){
-        super();
+        super(3, 2);
     }
 
     @Override
     public boolean someoneWon() {
         int highestScore = Math.max(getScoreA(), getScoreB());
         int lowestScore = Math.min(getScoreA(), getScoreB());
-        return ( standardSetWin(highestScore, lowestScore) ||
-                 advantageSetWin(highestScore, lowestScore));
+        return highestScore > getThreshold() && highestScore >= lowestScore + getLead();
     }
 
 
@@ -46,16 +45,16 @@ public class TennisGame extends WinnableRound {
         normalScoreA = getScoreA();
         normalScoreB = getScoreB();
         if (deuce()) {
-            normalScoreA = 3;
-            normalScoreB = 3;
+            normalScoreA = getThreshold();
+            normalScoreB = getThreshold();
         }
         if (advantageA()) {
-            normalScoreA = 4;
-            normalScoreB = 3;
+            normalScoreA = getThreshold() + 1;
+            normalScoreB = getThreshold();
         }
         if (advantageB()) {
-            normalScoreA = 3;
-            normalScoreB = 4;
+            normalScoreA = getThreshold();
+            normalScoreB = getThreshold() + 1;
         }
     }
 
@@ -68,11 +67,11 @@ public class TennisGame extends WinnableRound {
     }
 
     private boolean advantageA() {
-        return getScoreA() > 3 && getScoreB() > 3 && getScoreA() > getScoreB();
+        return getScoreA() >= getThreshold() && getScoreB() >= getThreshold() && getScoreA() > getScoreB();
     }
 
     private boolean advantageB() {
-        return getScoreA() > 3 && getScoreB() > 3 && getScoreB() > getScoreA();
+        return getScoreA() >= getThreshold() && getScoreB() >= getThreshold() && getScoreB() > getScoreA();
     }
 
     private boolean zeroScores() {
@@ -80,14 +79,7 @@ public class TennisGame extends WinnableRound {
     }
 
     private boolean deuce() {
-        return getScoreA() > 3 && getScoreA() == getScoreB();
+        return getScoreA() >= getThreshold() && getScoreA() == getScoreB();
     }
 
-    private boolean standardSetWin(int highestScore, int lowestScore) {
-        return highestScore > 3 && lowestScore < 3;
-    }
-
-    private boolean advantageSetWin(int highestScore, int lowestScore) {
-        return lowestScore > 3 && highestScore > lowestScore + 1;
-    }
 }

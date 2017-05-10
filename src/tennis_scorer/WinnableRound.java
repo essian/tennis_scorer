@@ -8,9 +8,14 @@ public abstract class WinnableRound {
     private int scoreA;
     private int scoreB;
 
-    public WinnableRound() {
+    private int threshold;
+    private int lead;
+
+    public WinnableRound(int threshold, int lead) {
         scoreA = 0;
         scoreB = 0;
+        this.threshold = threshold;
+        this.lead = lead;
     }
 
     public int getScoreA() {
@@ -19,6 +24,14 @@ public abstract class WinnableRound {
 
     public int getScoreB() {
         return scoreB;
+    }
+
+    public int getThreshold() {
+        return threshold;
+    }
+
+    public int getLead() {
+        return lead;
     }
 
     public void increment(Player player) {
@@ -52,8 +65,6 @@ public abstract class WinnableRound {
     public abstract boolean someoneWon ();
 
     public abstract String toString(Player server);
-
-
 
 
 }

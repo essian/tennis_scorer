@@ -5,15 +5,15 @@ package tennis_scorer;
  */
 public class TennisSet extends WinnableRound {
 
-    public TennisSet() {
-        super();
+    public TennisSet(int threshold, int lead) {
+        super(threshold, lead);
     }
 
     @Override
     public boolean someoneWon() {
         int highestScore = Math.max(getScoreA(), getScoreB());
         int lowestScore = Math.min(getScoreA(), getScoreB());
-        return (highestScore >=6  && highestScore > lowestScore + 1);
+        return (highestScore >=getThreshold()  && highestScore >= lowestScore + getLead());
     }
 
     public String toString(Player server) {

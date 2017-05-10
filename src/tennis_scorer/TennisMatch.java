@@ -12,7 +12,7 @@ public class TennisMatch {
         scoreBoard = new ScoreBoard();
     }
 
-    public void parseGameWinners(String line) {
+    public void parsePointWinners(String line) {
         String[] gameWinners = line.split("");
         for (String gameWinner : gameWinners) {
             try {
