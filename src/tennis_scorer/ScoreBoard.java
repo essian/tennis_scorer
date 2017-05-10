@@ -14,7 +14,7 @@ public class ScoreBoard {
 
     public ScoreBoard() {
         scoreBoard = new ArrayList<>();
-        currentSet = new TennisSet(6, 2);
+        currentSet = new TennisSet();
         currentGame = new TennisGame();
         scoreBoard.add(currentSet);
         scoreBoard.add(currentGame);
@@ -48,7 +48,7 @@ public class ScoreBoard {
     private void updateSets(Player winner) {
         currentSet.increment(winner);
         if (currentSet.someoneWon()) {
-            currentSet = new TennisSet(4, 2);
+            currentSet = new TennisSet();
             scoreBoard.add(currentSet);
         }
     }

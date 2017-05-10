@@ -20,41 +20,36 @@ public class TennisGame extends WinnableRound {
     private int normalScoreB;
 
     public TennisGame(){
-        super(3, 2);
+        super(4, 2);
     }
-
-    @Override
-    public boolean someoneWon() {
-        int highestScore = Math.max(getScoreA(), getScoreB());
-        int lowestScore = Math.min(getScoreA(), getScoreB());
-        return highestScore > getThreshold() && highestScore >= lowestScore + getLead();
-    }
-
 
     @Override
     public String toString(Player server) {
         if (zeroScores()) {
             return "";
         }
-        normaliseScores();
+        normalScoreA = getScoreA();
+        normalScoreB = getScoreB();
+        if (scoresReachedThreshold()) {
+            normaliseScores();
+        }
         return serverFirstFormat(server, getScoreString(normalScoreA), getScoreString(normalScoreB));
 
     }
 
     private void normaliseScores() {
-        normalScoreA = getScoreA();
-        normalScoreB = getScoreB();
+
         if (deuce()) {
             normalScoreA = getThreshold();
             normalScoreB = getThreshold();
         }
         if (advantageA()) {
-            normalScoreA = getThreshold() + 1;
-            normalScoreB = getThreshold();
+            normalScoreA = getThreshold();
+            normalScoreB = getThreshold() - 1;
         }
         if (advantageB()) {
-            normalScoreA = getThreshold();
-            normalScoreB = getThreshold() + 1;
+            normalScoreA = getThreshold() - 1;
+            normalScoreB = getThreshold();
         }
     }
 
@@ -66,20 +61,24 @@ public class TennisGame extends WinnableRound {
         return scoreString;
     }
 
-    private boolean advantageA() {
-        return getScoreA() >= getThreshold() && getScoreB() >= getThreshold() && getScoreA() > getScoreB();
-    }
-
-    private boolean advantageB() {
-        return getScoreA() >= getThreshold() && getScoreB() >= getThreshold() && getScoreB() > getScoreA();
-    }
-
     private boolean zeroScores() {
         return getScoreA() == 0 && getScoreB() == 0;
     }
 
+    private boolean scoresReachedThreshold() {
+        return getScoreA() >= getThreshold() && getScoreB() >= getThreshold();
+    }
+
+    private boolean advantageA() {
+        return getScoreA() > getScoreB();
+    }
+
+    private boolean advantageB() {
+        return getScoreB() > getScoreA();
+    }
+
     private boolean deuce() {
-        return getScoreA() >= getThreshold() && getScoreA() == getScoreB();
+        return getScoreA() == getScoreB();
     }
 
 }

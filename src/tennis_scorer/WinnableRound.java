@@ -62,7 +62,11 @@ public abstract class WinnableRound {
         return formattedString;
     }
 
-    public abstract boolean someoneWon ();
+    public boolean someoneWon () {
+        int highestScore = Math.max(scoreA, scoreB);
+        int lowestScore = Math.min(scoreA, scoreB);
+        return highestScore >= getThreshold() && highestScore >= lowestScore + getLead();
+    };
 
     public abstract String toString(Player server);
 
