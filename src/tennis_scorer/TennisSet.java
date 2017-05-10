@@ -3,15 +3,20 @@ package tennis_scorer;
 /**
  * Created by Essian on 09/05/2017.
  */
-public class TennisSet extends WinnableThing {
+public class TennisSet extends WinnableRound {
 
     public TennisSet() {
         super();
     }
 
-    public String toString() {
-        return String.format("%d-%d ", getScoreA(), getScoreB());
+    @Override
+    public boolean someoneWon() {
+        int highestScore = Math.max(getScoreA(), getScoreB());
+        int lowestScore = Math.min(getScoreA(), getScoreB());
+        return (highestScore >=6  && highestScore > lowestScore + 1);
     }
 
-
+    public String toString(String server) {
+        return serverFirstFormat(server, "" + getScoreA(), "" + getScoreB());
+    }
 }

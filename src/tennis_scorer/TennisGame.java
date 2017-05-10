@@ -6,39 +6,74 @@ import java.util.Map;
 /**
  * Created by Essian on 09/05/2017.
  */
-public class TennisGame extends WinnableThing {
+public class TennisGame extends WinnableRound {
 
-    private Map<Integer, String> pointsList = new HashMap<Integer, String>();
-
-    public TennisGame(){
-        super();
+    private static final Map<Integer, String> pointsList = new HashMap<>();
+    static {
         pointsList.put(0, "0");
         pointsList.put(1, "15");
         pointsList.put(2, "30");
         pointsList.put(3, "40");
         pointsList.put(4, "A");
-        pointsList.put(5, "out of range");
+    }
 
+    public TennisGame(){
+        super();
+    }
+
+    @Override
+    public boolean someoneWon() {
+        int highestScore = Math.max(getScoreA(), getScoreB());
+        int lowestScore = Math.min(getScoreA(), getScoreB());
+        return ( standardSetWin(highestScore, lowestScore) ||
+                 advantageSetWin(highestScore, lowestScore));
     }
 
 
     @Override
-    public String toString() {
+    public String toString(String server) {
         int scoreA = getScoreA();
         int scoreB = getScoreB();
-        if (scoreA > 3 && scoreA == scoreB) {
+
+        if (zeroScores()) {
+            return "";
+        }
+        if (deuce()) {
             scoreA = 3;
             scoreB = 3;
         }
-        if (scoreA > 3 && scoreB > 3) {
-            if (scoreA > scoreB) {
-                scoreA = 4;
-                scoreB = 3;
-            } else {
-                scoreA = 3;
-                scoreB = 4;
-            }
+        if (advantageA()) {
+            scoreA = 4;
+            scoreB = 3;
         }
-        return String.format("%s-%s ", pointsList.get(scoreA), pointsList.get(scoreB) );
+        if (advantageB()) {
+            scoreA = 3;
+            scoreB = 4;
+        }
+        return serverFirstFormat(server, pointsList.get(scoreA), pointsList.get(scoreB));
+    }
+
+    private boolean advantageA() {
+        return getScoreA() > 3 && getScoreB() > 3 && getScoreA() > getScoreB();
+    }
+
+    private boolean advantageB() {
+        return getScoreA() > 3 && getScoreB() > 3 && getScoreB() > getScoreA();
+    }
+
+    private boolean zeroScores() {
+        return getScoreA() == 0 && getScoreB() == 0;
+    }
+
+    private boolean deuce() {
+        return getScoreA() > 3 && getScoreA() == getScoreB();
+    }
+
+    private boolean standardSetWin(int highestScore, int lowestScore) {
+        return highestScore > 3 && lowestScore < 3;
+    }
+
+    private boolean advantageSetWin(int highestScore, int lowestScore) {
+        return lowestScore > 3 && highestScore > lowestScore + 1;
     }
 }

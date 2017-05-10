@@ -5,7 +5,7 @@ package tennis_scorer;
  */
 public class TennisMatch {
 
-    private ScoreBoard scoreBoard;
+    private final ScoreBoard scoreBoard;
 
     public TennisMatch() {
         scoreBoard = new ScoreBoard();

@@ -9,9 +9,16 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String ...args) throws Exception {
-        File file = new File("input.txt");
-        Scanner reader = new Scanner(file);
-        FileWriter writer = new FileWriter("output.txt");
+
+        //        File inFile = new File(args[0]);
+        //        File outFile = new File(args[1]);
+
+
+        File inFile = new File("input.txt");
+        File outFile = new File("output.txt");
+
+        Scanner reader = new Scanner(inFile);
+        FileWriter writer = new FileWriter(outFile);
 
 
         while (reader.hasNextLine()) {

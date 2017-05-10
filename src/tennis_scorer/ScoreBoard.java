@@ -7,41 +7,53 @@ import java.util.*;
  */
 public class ScoreBoard {
 
-    private List<WinnableThing> scoreBoard;
+    private final List<WinnableRound> scoreBoard;
     private TennisSet currentSet;
     private TennisGame currentGame;
+    private String server;
 
     public ScoreBoard() {
-        scoreBoard = new ArrayList<WinnableThing>();
+        scoreBoard = new ArrayList<>();
         currentSet = new TennisSet();
         currentGame = new TennisGame();
         scoreBoard.add(currentSet);
         scoreBoard.add(currentGame);
+        server = "A";
     }
 
     public void incrementMatch(String winner) {
-
         currentGame.increment(winner);
         if (currentGame.someoneWon()) {
-            currentSet.increment(winner);
+            switchServer();
             scoreBoard.remove(currentGame);
-            if (currentSet.someoneWon()) {
-                currentSet = new TennisSet();
-                scoreBoard.add(currentSet);
-            }
-            currentGame = new TennisGame();
-            scoreBoard.add(currentGame);
+            updateSets(winner);
+            startNewGame();
         }
     }
 
     public String toString() {
-        String result = "";
-        for (WinnableThing thing : scoreBoard) {
-            result += thing.toString();
+        StringBuilder result = new StringBuilder();
+        for (WinnableRound thing : scoreBoard) {
+            result.append(thing.toString(server));
         }
-        return result;
+        return result.toString();
     }
 
+    private void startNewGame() {
+        currentGame = new TennisGame();
+        scoreBoard.add(currentGame);
+    }
 
+    private void updateSets(String winner) {
+        currentSet.increment(winner);
+        if (currentSet.someoneWon()) {
+            currentSet = new TennisSet();
+            scoreBoard.add(currentSet);
+        }
+    }
+
+    private void switchServer() {
+        server = server.equals("A") ? "B" : "A";
+    }
 
 }
