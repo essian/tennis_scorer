@@ -10,11 +10,11 @@ import java.util.Scanner;
 public class Main {
     public static void main(String ...args) throws Exception {
 
-        File inFile = new File(args[0]);
-        File outFile = new File(args[1]);
+//        File inFile = new File(args[0]);
+//        File outFile = new File(args[1]);
 
-//        File inFile = new File("input.txt");
-//        File outFile = new File("output.txt");
+        File inFile = new File("input.txt");
+        File outFile = new File("output.txt");
 
         Scanner reader = new Scanner(inFile);
         FileWriter writer = new FileWriter(outFile);
