@@ -26,6 +26,14 @@ public abstract class WinnableRound {
         return scoreB;
     }
 
+    public void setScoreA(int scoreA) {
+        this.scoreA = scoreA;
+    }
+
+    public void setScoreB(int scoreB) {
+        this.scoreB = scoreB;
+    }
+
     public int getThreshold() {
         return threshold;
     }
