@@ -26,9 +26,8 @@ public class ScoreBoard {
         currentGame.increment(winner);
         if (currentGame.someoneWon()) {
             switchServer();
-            scoreBoard.remove(currentGame);
             updateSets(winner);
-            startNewGame();
+            currentGame.reset();
         }
     }
 
@@ -38,11 +37,6 @@ public class ScoreBoard {
             result.append(round.toString(server));
         }
         return result.toString();
-    }
-
-    private void startNewGame() {
-        currentGame = new TennisGame();
-        scoreBoard.add(currentGame);
     }
 
     private void updateSets(Player winner) {

@@ -47,6 +47,11 @@ public abstract class WinnableRound {
         }
     }
 
+    public void reset() {
+        scoreA = 0;
+        scoreB = 0;
+    }
+
     public String serverFirstFormat(Player server, String scoreA, String scoreB) {
         String formattedString;
         switch (server) {
@@ -69,5 +74,6 @@ public abstract class WinnableRound {
     }
 
     public abstract String toString(Player server);
+
 
 }
