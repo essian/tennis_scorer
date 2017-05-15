@@ -4,7 +4,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,22 +15,34 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class TennisScoreConverterTest {
 
-    private TennisScoreConverter converter;
-    private HashMap<Player, String> expected;
-    private TennisGame game;
+    private TennisScoreConverter converter = new TennisScoreConverter();
+    private Map<Player, String> expected = new HashMap<>();
+    private TennisGame game = new TennisGame();
+    private Field scoreA;
+    private Field scoreB;
 
     @BeforeEach
     public void setup() {
-    converter = new TennisScoreConverter();
-    expected = new HashMap<>();
-    game = new TennisGame();
+        try {
+            scoreA = game.getClass().getSuperclass().getDeclaredField("scoreA");
+            scoreA.setAccessible(true);
+            scoreB = game.getClass().getSuperclass().getDeclaredField("scoreB");
+            scoreB.setAccessible(true);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
     }
+
 
 
     @Test
     void testAdvantageA() {
-        game.setScoreA(4);
-        game.setScoreB(3);
+        try {
+            scoreA.set(game, 4);
+            scoreB.set(game, 3);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         expected.put(Player.A, "A");
         expected.put(Player.B, "40");
         assertEquals(expected, converter.convertScores(game));
@@ -36,26 +50,30 @@ class TennisScoreConverterTest {
 
     @Test
     void testAdvantageB() {
-        game.setScoreA(6);
-        game.setScoreB(7);
+        try {
+            scoreA.set(game, 6);
+            scoreB.set(game, 7);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         expected.put(Player.A, "40");
         expected.put(Player.B, "A");
         assertEquals(expected, converter.convertScores(game));
     }
 
     @Test
-    void testDeuce() {
-        game.setScoreA(6);
-        game.setScoreB(6);
+    void testDeuce() throws IllegalAccessException {
+        scoreA.set(game, 6);
+        scoreB.set(game, 6);
         expected.put(Player.A, "40");
         expected.put(Player.B, "40");
         assertEquals(expected, converter.convertScores(game));
     }
 
     @Test
-    void highScores() {
-        game.setScoreA(50);
-        game.setScoreB(50);
+    void highScores() throws IllegalAccessException {
+        scoreA.set(game, 50);
+        scoreB.set(game, 50);
         expected.put(Player.A, "40");
         expected.put(Player.B, "40");
         assertEquals(expected, converter.convertScores(game));
@@ -63,9 +81,9 @@ class TennisScoreConverterTest {
 
 
     @Test
-    void testNilNil() {
-        game.setScoreA(0);
-        game.setScoreB(0);
+    void testNilNil() throws IllegalAccessException {
+        scoreA.set(game, 0);
+        scoreB.set(game, 0);
         expected.put(Player.A, "0");
         expected.put(Player.B, "0");
         assertEquals(expected, converter.convertScores(game));
@@ -73,10 +91,10 @@ class TennisScoreConverterTest {
 
 
     @Test
-    void gameAlreadyOver() {
+    void gameAlreadyOver() throws IllegalAccessException {
         try {
-            game.setScoreA(4);
-            game.setScoreB(0);
+            scoreA.set(game, 4);
+            scoreB.set(game, 0);
             converter.convertScores(game);
             fail("No error generated");
         } catch (IllegalArgumentException expectedException) {
@@ -87,12 +105,14 @@ class TennisScoreConverterTest {
     @Test
     void negativeScores() {
         try {
-            game.setScoreA(-4);
-            game.setScoreB(0);
+            scoreA.set(game, -4);
+            scoreB.set(game, 0);
             converter.convertScores(game);
             fail("No error generated");
         } catch (IllegalArgumentException expectedException) {
 
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
     }
 }

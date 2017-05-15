@@ -14,13 +14,17 @@ public class TennisMatch {
     public void parsePointWinners(String line) {
         String[] gameWinners = line.split("");
         for (String gameWinner : gameWinners) {
-            try {
-                Player player = Player.valueOf(gameWinner);
-                scoreBoard.increment(player);
-            } catch (Exception e) {
-                if (!gameWinner.equals("")) { //empty input should be permitted and should output nil-nil set
-                    throw new IllegalArgumentException("Invalid player in input " + gameWinner);
-                }
+            incrementScoreboard(gameWinner);
+        }
+    }
+
+    private void incrementScoreboard(String gameWinner) {
+        try {
+            Player player = Player.valueOf(gameWinner);
+            scoreBoard.increment(player);
+        } catch (Exception e) {
+            if (!gameWinner.equals("")) { //empty input should be permitted and should output nil-nil set
+                throw new IllegalArgumentException("Invalid player in input " + gameWinner);
             }
         }
     }
